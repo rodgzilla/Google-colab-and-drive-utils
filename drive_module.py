@@ -9,7 +9,7 @@ import time
 
 def auth_drive():
     """
-    get authentication for Google drive
+    Get authentication for Google drive.
     """
     auth.authenticate_user()
     gauth = GoogleAuth()
@@ -18,9 +18,9 @@ def auth_drive():
 
 def file_title_list(just_root=False):
     """
-    get liste for all files
-    
-    (option : set just_root to true for have only the file in the root)
+    Get list of all files on this drive account.
+
+    (option: set just_root to true for have only the file in the root)
     """
     drive = auth_drive()
 
@@ -33,9 +33,9 @@ def file_title_list(just_root=False):
 
 def get_file(name,check=True):
     """
-    get a file by this name
-    
-    (option : set check to False download the file even if the local version is the newest)
+    Get a file by name.
+
+    (option: set check to False download the file even if the local version is the newest)
     """
     drive = auth_drive()
 
