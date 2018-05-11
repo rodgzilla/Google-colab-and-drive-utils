@@ -8,12 +8,20 @@ import dateutil
 import time
 
 def auth_drive():
+    """
+    get authentication for Google drive
+    """
     auth.authenticate_user()
     gauth = GoogleAuth()
     gauth.credentials = GoogleCredentials.get_application_default()
     return GoogleDrive(gauth)
 
 def file_title_list(just_root=False):
+    """
+    get liste for all files
+    
+    (option : set just_root to true for have only the file in the root)
+    """
     drive = auth_drive()
 
     req = "trashed=false"
@@ -24,6 +32,11 @@ def file_title_list(just_root=False):
     return [l.get('title') for l in listFiles]
 
 def get_file(name,check=True):
+    """
+    get a file by this name
+    
+    (option : set check to False download the file even if the local version is the newest)
+    """
     drive = auth_drive()
 
     file_want_list = drive.ListFile({'q': "trashed=false and title='" + name + "'"}).GetList()
