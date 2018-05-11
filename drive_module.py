@@ -46,9 +46,9 @@ def get_file(name,check=True):
         if path.exists() :
             date_drive = dateutil.parser.parse(file_want_list[idx].get("modifiedDate"))
             date_local = dateutil.parser.parse(time.ctime(path.stat().st_mtime))
-
-            if date_drive.ctime() <= date_local.ctime() :
-                print(f"allready get")
+            date_drive = date_drive.replace(tzinfo=None)
+            if date_drive <= date_local :
+                print(f"file already get")
                 return # file already in, no download
     print(f"file downloaded  {addtxt}")
     file_want_list[0].GetContentFile(name)
