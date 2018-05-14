@@ -24,7 +24,7 @@ def sauv_file(fileName):
     """
     drive = auth_drive()
 
-    path = pathlib.Path(fileName):
+    path = pathlib.Path(fileName)
     if not path.exists() :
       raise ValueError()
 
