@@ -16,6 +16,22 @@ def auth_drive():
     gauth.credentials = GoogleCredentials.get_application_default()
     return GoogleDrive(gauth)
 
+def sauv_file(fileName):
+    """
+    Save a file in your drive
+
+    take the name of the file
+    """
+    drive = auth_drive()
+
+    path = pathlib.Path(name)
+    if not path.exists() :
+      raise ValueError()
+
+    file = drive.CreateFile()  
+    file.SetContentFile(fileName)
+    file.Upload()
+
 def file_title_list(just_root=False):
     """
     Get list of all files on this drive account.
