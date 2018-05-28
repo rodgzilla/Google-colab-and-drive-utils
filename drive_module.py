@@ -56,7 +56,7 @@ def get_file(name,check=True):
     drive = auth_drive()
 
     file_want_list = drive.ListFile({'q': "trashed=false and title='" + name + "'"}).GetList()
-    print(len(file_want_list))
+    
     if len(file_want_list) == 0 :
         print(f'Failure : No file with this name')
         raise ValueError
@@ -80,6 +80,5 @@ def get_file(name,check=True):
                 print(f"file already get")
                 return # file already in, no download
     
-    print(len(file_want_list))
     file_want_list[0].GetContentFile(name)
     print(f"file downloaded  {addtxt}")
