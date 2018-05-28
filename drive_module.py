@@ -57,7 +57,7 @@ def get_file(name,check=True):
 
     file_want_list = drive.ListFile({'q': "trashed=false and title='" + name + "'"}).GetList()
 
-    if file_want_list.count == 0 :
+    if len(file_want_list) == 0 :
         print(f'Failure : No file with this name')
         raise ValueError
     addtxt = ""
