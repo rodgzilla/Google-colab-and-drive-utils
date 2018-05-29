@@ -42,10 +42,6 @@ def file_title_list(request="trashed=false"):
     """
     drive = auth_drive()
 
-    req = "trashed=false and 'root' in parents"
-    if just_root :
-        req +=  "and 'root' in parents"
-
     listFiles = drive.ListFile({'q': request}).GetList()
     return [l.get('title') for l in listFiles]
 
