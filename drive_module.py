@@ -32,25 +32,28 @@ def sauv_file(fileName):
     file.SetContentFile(fileName)
     file.Upload()
 
-def file_title_list(just_root=False):
+def file_title_list(request="trashed=false"):
     """
     Get list of all files on this drive account.
 
-    (option: set just_root to true for have only the file in the root)
+    (option: you can choose the request
+    like : "trashed=false and 'root' in parents"
+    to have only the files in the root)
     """
     drive = auth_drive()
 
-    req = "trashed=false"
+    req = "trashed=false and 'root' in parents"
     if just_root :
         req +=  "and 'root' in parents"
 
-    listFiles = drive.ListFile({'q': req}).GetList()
+    listFiles = drive.ListFile({'q': request}).GetList()
     return [l.get('title') for l in listFiles]
 
 def get_file(name,check=True):
     """
     Get a file by name.
-
+    you can't get a file which is in your drive trash
+    
     (option: set check to False download the file even if the local version is the newest)
     """
     drive = auth_drive()
