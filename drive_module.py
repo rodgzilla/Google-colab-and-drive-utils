@@ -16,21 +16,44 @@ def auth_drive():
     gauth.credentials = GoogleCredentials.get_application_default()
     return GoogleDrive(gauth)
 
-def sauv_file(fileName):
+
+def sauv_file(fileName, replace_old_file=True):
     """
     Save a file in your drive
 
     take the name of the file
+    (can choose to not replace old file with same name)
     """
-    drive = auth_drive()
-
     path = pathlib.Path(fileName)
     if not path.exists() :
-      raise ValueError()
+      raise ValueError("there is no file with this name")
+      
+    drive = auth_drive()
 
-    file = drive.CreateFile()  
-    file.SetContentFile(fileName)
-    file.Upload()
+    file_want_list = drive.ListFile({'q': "trashed=false and title='" + fileName + "'"}).GetList()
+    
+    if len(file_want_list) == 0 or not replace_old_file:
+        file = drive.CreateFile()  
+        file.SetContentFile(fileName)
+        file.Upload()
+        print("file created")
+        return
+           
+    addtxt = ""
+    idx = 0
+    if len(file_want_list) > 1 : # Many files with the same name
+        addtxt = f' : Many files with the same name, the newest is updated'
+        max = file_want_list[0].get("modifiedDate")
+        for i in range(1,len(file_want_list)) :
+            if file_want_list[i].get("modifiedDate") > max:
+                max = file_want_list[i].get("modifiedDate")
+                idx = i
+    
+    file_want_list[idx].SetContentFile(fileName)
+    file_want_list[idx].Upload()
+    print(f"file updated {addtxt}")
+    
+    
 
 def file_title_list(request="trashed=false"):
     """
@@ -79,5 +102,5 @@ def get_file(name,check=True):
                 print(f"file already get")
                 return # file already in, no download
     
-    file_want_list[0].GetContentFile(name)
+    file_want_list[idx].GetContentFile(name)
     print(f"file downloaded  {addtxt}")
