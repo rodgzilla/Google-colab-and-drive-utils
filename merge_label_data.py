@@ -32,7 +32,12 @@ def merge_label_data(input_fns, output_fn):
     full_df = pd.concat(clean_df_list)
     full_df.to_csv(output_fn, index = False)
 
-def basic_merge():
+def local_basic_merge(xlsx_folder_name="."):
+    input_fns = list_valid_files(xlsxfilename)
+    output_fn = 'full_dataset.csv'
+    merge_label_data(input_fns, output_fn)
+    
+def colab_basic_merge():
     get_all_data_xlsx_files()
     input_fns = list_valid_files()
     output_fn = 'full_dataset.csv'
