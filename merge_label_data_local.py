@@ -2,14 +2,6 @@ import pathlib
 import os
 import pandas as pd
 import xlrd
-from drive_module import *
-
-def get_all_data_xlsx_files():
-    fileList = file_title_list()
-    fileList = [f for f in fileList if f.endswith("data.xlsx")]
-    print(fileList)
-    for f in fileList:
-        get_file(f)
 
 def list_valid_files(folder="."):
     data_folder = pathlib.Path(folder)
@@ -33,12 +25,6 @@ def merge_label_data(input_fns, output_fn):
     full_df.to_csv(output_fn, index = False)
 
 def local_basic_merge(xlsx_folder_name="."):
-    input_fns = list_valid_files(xlsxfilename)
-    output_fn = 'full_dataset.csv'
-    merge_label_data(input_fns, output_fn)
-    
-def colab_basic_merge():
-    get_all_data_xlsx_files()
-    input_fns = list_valid_files()
+    input_fns = list_valid_files(xlsx_folder_name)
     output_fn = 'full_dataset.csv'
     merge_label_data(input_fns, output_fn)
